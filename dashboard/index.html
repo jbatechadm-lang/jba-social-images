@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JBA Tech Solutions - Dashboard de Publicações</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#0a0e1a;color:#e0e0e0;min-height:100vh}
+.header{background:linear-gradient(135deg,#0d1420 0%,#1a1a2e 50%,#0f1920 100%);padding:40px 32px;border-bottom:1px solid rgba(52,152,219,0.15)}
+.header h1{font-size:28px;font-weight:800;color:#fff;margin-bottom:4px}
+.header .sub{color:#6B7280;font-size:14px}
+.container{max-width:1400px;margin:0 auto;padding:32px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.card{background:linear-gradient(135deg,#111827 0%,#1a1a2e 100%);border:1px solid rgba(52,152,219,0.1);border-radius:12px;padding:24px;text-align:center}
+.card .value{font-size:36px;font-weight:800;color:#fff;margin-bottom:4px}
+.card .label{font-size:13px;color:#6B7280;text-transform:uppercase;letter-spacing:0.5px}
+.card.blue .value{color:#3498DB}
+.card.gold .value{color:#FFD700}
+.card.green .value{color:#4CAF50}
+.card.purple .value{color:#9B59B6}
+.section{margin-bottom:32px}
+.section h2{font-size:20px;font-weight:700;margin-bottom:16px;color:#fff}
+.section h2 span{color:#3498DB}
+table{width:100%;border-collapse:collapse;background:#111827;border-radius:12px;overflow:hidden;border:1px solid rgba(52,152,219,0.1)}
+th{background:#1a1a2e;padding:12px 16px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;color:#6B7280;border-bottom:1px solid rgba(52,152,219,0.1)}
+td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.03);font-size:14px}
+td.topic{max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+td.num{text-align:right;font-variant-numeric:tabular-nums;color:#B0B8D0}
+tr:hover td{background:rgba(52,152,219,0.05)}
+.chart-container{background:#111827;border:1px solid rgba(52,152,219,0.1);border-radius:12px;padding:24px;margin-bottom:32px}
+canvas{max-height:300px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:900px){.two-col{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+.footer{text-align:center;padding:24px;color:#6B7280;font-size:12px;border-top:1px solid rgba(52,152,219,0.1)}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>JBA Tech Solutions</h1>
+  <div class="sub">Dashboard de Publicações Instagram • Atualizado: 13/07/2026, 09:27:01</div>
+</div>
+<div class="container">
+
+  <div class="grid">
+    <div class="card blue"><div class="value">25</div><div class="label">Publicações</div></div>
+    <div class="card gold"><div class="value">1</div><div class="label">Alcance Total</div></div>
+    <div class="card green"><div class="value">0</div><div class="label">Impressões</div></div>
+    <div class="card purple"><div class="value">0</div><div class="label">Engajamento</div></div>
+    <div class="card blue"><div class="value">0</div><div class="label">Curtidas</div></div>
+    <div class="card gold"><div class="value">0</div><div class="label">Comentários</div></div>
+    <div class="card green"><div class="value">0</div><div class="label">Compartilhamentos</div></div>
+    <div class="card purple"><div class="value">0</div><div class="label">Salvamentos</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="chart-container">
+      <h2 style="margin-bottom:16px">Publicações por <span>Dia</span></h2>
+      <canvas id="dateChart"></canvas>
+    </div>
+    <div class="chart-container">
+      <h2 style="margin-bottom:16px">Top 5 por <span>Alcance</span></h2>
+      <table>
+        <thead><tr><th>#</th><th>Tema</th><th>Alcance</th><th>Engajamento</th></tr></thead>
+        <tbody><tr>
+  <td>1</td>
+  <td class="topic">Agente de IA no WhatsApp que vende 24 horas p...</td>
+  <td class="num">1</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="topic">(sem tema)</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="topic">Automação de processos com IA para PMEs</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="topic">Como agendar 10 reuniões por semana com IA no...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="topic">Automação de prospecção B2B: da lista ao fech...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+</tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Todas as <span>Publicações</span></h2>
+    <table>
+      <thead><tr>
+        <th>Data</th><th>Tema</th><th>Alcance</th><th>Impressões</th>
+        <th>Curtidas</th><th>Coment.</th><th>Shares</th><th>Saves</th><th>Engajamento</th>
+      </tr></thead>
+      <tbody><tr>
+  <td>2026-07-12</td>
+  <td class="topic">(sem tema)</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+</tr>
+<tr>
+  <td>2026-07-12</td>
+  <td class="topic">(sem tema)</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">(sem tema)</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Automação de processos com IA para PMEs</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Como agendar 10 reuniões por semana com IA no What...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Automação de prospecção B2B: da lista ao fechament...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">CRM inteligente que qualifica leads enquanto você ...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Agente de IA no WhatsApp que vende 24 horas por di...</td>
+  <td class="num">1</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Economize 40h/mês em prospecção manual com automaç...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Como agendar 10 reuniões por semana com IA no What...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Automação de prospecção B2B: da lista ao fechament...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Como agendar 10 reuniões por semana com IA no What...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Como agendar 10 reuniões por semana com IA no What...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Como agendar 10 reuniões por semana com IA no What...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Automação de prospecção B2B: da lista ao fechament...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">CRM inteligente que qualifica leads enquanto você ...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Agente de IA no WhatsApp que vende 24 horas por di...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Economize 40h/mês em prospecção manual com automaç...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Como agendar 10 reuniões por semana com IA no What...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Como agendar 10 reuniões por semana com IA no What...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">n8n + IA: automatize sua prospecção do zero</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">DeepSeek vs GPT: qual usar para prospectar cliente...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Sequência de follow-up automática que dobra conver...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Dashboard de vendas em tempo real com automação</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr>
+<tr>
+  <td>2026-07-13</td>
+  <td class="topic">Case real: empresa que triplicou leads em 30 dias ...</td>
+  <td class="num">0</td>
+  <td class="num">0</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">0</td>
+</tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  JBA Tech Solutions • Dashboard automático • Dados via Instagram Graph API
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script>
+const ctx = document.getElementById('dateChart');
+if (ctx) {
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ["2026-07-12","2026-07-13"],
+      datasets: [{
+        label: 'Publicações',
+        data: [2,23],
+        backgroundColor: 'rgba(52,152,219,0.6)',
+        borderColor: 'rgba(52,152,219,1)',
+        borderWidth: 1,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#6B7280' }, grid: { color: 'rgba(255,255,255,0.03)' } },
+        y: { ticks: { color: '#6B7280', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.03)' }, beginAtZero: true }
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>
